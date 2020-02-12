@@ -3,6 +3,7 @@ A python based parser that parses the runtime log and makes github issues per ru
 
 ## Installation requirements
 You'll need the 'pygithub' package to run this script.
+
 `pip install pygithub`
 
 ## Configuration
@@ -11,5 +12,7 @@ The example config is configured for the ParadiseStation SS13 server.
 
 ## Running
 To run the program simply start a command line and type:
-`py ./runtime_parses.py [relative_path_to_runtime_file]
+
+`py ./runtime_parses.py [relative_path_to_runtime_file]`
+
 The file will default to runtime.log in the directory where the script is located.
