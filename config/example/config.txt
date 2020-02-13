@@ -1,14 +1,27 @@
+# Whitespace on the right of each assignment will not be trimmed. So please ensure that you remove unneeded whitespace
+
 # Regex used to match the start of the runtime (example is based of paradise stations log)
+# Will use the first group in the match to find the runtime used in the title and for identification
 RUNTIME_RE \[20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\]\sRuntime in (.*?):.*
+
 # Regex used to match the proc name of the runtime (example is based of paradise stations log)
+# Will use the first group in the match to find the proc name used in the title and for identification
 PROC_NAME_RE \[20[0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\]   proc name: .*? \((.*?)\)
 
-# Censoring regex strings. Not easily changeable. Group size is set
-# TODO: Make regex groups variable
-FIND_PREF_WARNING_CKEY_RE (ckey \').*(\')
-FIND_USR_CKEY_RE (usr: .*\()[\w *]*(\))
-FIND_PARAM_CKEY_RE ( *)[\w *]*( \(\/client\))
-FIND_REF_BASED_CKEY_RE (Got \\ref-based src in topic from )\w*( for .* \()\w*(\))
+# Censoring regex strings. Every entry of CENSORING_MATCH_RE should have an entry of CENSORING_REPLACE_RE
+# The groups of the match regex string will be used in the new string. The rest of the match will be replaced
+# Order of these matters since it will go down the list and apply the censors additive
+CENSORING_MATCH_RE (ckey \').*(\')
+CENSORING_REPLACE_RE \1CKEY\2
+
+CENSORING_MATCH_RE (usr: .*\()[\w *]*(\))
+CENSORING_REPLACE_RE \1CKEY\2
+
+CENSORING_MATCH_RE ( *)[\w *]*( \(\/client\))
+CENSORING_REPLACE_RE \1CKEY\2
+
+CENSORING_MATCH_RE (Got \\ref-based src in topic from )\w*( for .* \()\w*(\))
+CENSORING_REPLACE_RE \1CKEY\2CKEY\3
 
 # Path to the repo
 REPO_PATH owner/RepoName
@@ -19,8 +32,14 @@ BOT_NAME issue_maker_name
 # Token used to authenticate to github
 TOKEN TOKEN_HERE
 
+# Start of each issue title
+ISSUE_TITLE_BASE [RUNTIME] 
+
 # Lables that the issues will get and the script will use to search existing ones. Use ',' to add multiple
 ISSUE_LABELS Runtime,OtherLabel
+
+# The body of a newly created issue. The stacktrace will be posted behind the given body
+ISSUE_CREATE_BODY Runtime on ParadiseStations live server\n
 
 # The text of the comment placed when the script reopens an issue. After this text the new found stacktrace will be placed. \n will turn into newlines
 REOPEN_COMMENT_BASE Reopened issue due to new occurence.\n
