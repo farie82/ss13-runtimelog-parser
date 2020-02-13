@@ -49,7 +49,7 @@ class Parser:
         elif var == 'ISSUE_LABELS':
             self.ISSUE_LABELS = value.split(',')
         elif var == 'REOPEN_COMMENT_BASE':
-            self.REOPEN_COMMENT_BASE = value.replace("\\n", "\n")
+            self.REOPEN_COMMENT_BASE = value.replace("\\n", "\n") + "\n"
         elif var == 'RUNTIME_RE':
             self.RUNTIME_RE = re.compile(value)
         elif var == 'PROC_NAME_RE':
@@ -57,7 +57,7 @@ class Parser:
         elif var == 'ISSUE_TITLE_BASE':
             self.ISSUE_TITLE_BASE = value
         elif var == 'ISSUE_CREATE_BODY':
-            self.ISSUE_CREATE_BODY = value
+            self.ISSUE_CREATE_BODY = value.replace("\\n", "\n") + "\n"
 
     def parse_file(self, fileName):
         try:
